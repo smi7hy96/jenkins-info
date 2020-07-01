@@ -26,16 +26,16 @@
 ### Build steps:
 
 1) Dev updates / changes code
-	- Code --> Version Control --> repo
+	- Code Changes --> Committed and Pushed to branch on GitHub --> Jenkins detects push
 2) Code delivered to build server
-	- Jenkins detects chenge, sends to server
+	- Jenkins detected change, and runs pipeline with workspace (files that were pushed)
 3) Builds app
-	- Builds new version of app using build-script (.sh file)
+	- Builds new version of app using build-script in the pipeline config
 4) Testing
 	- Using test script
 	- Either unit or integrated
 5) Return problems
-	- Either in UI or as email
+	- Either in UI or on teams (using webhook)
 
 
 
@@ -50,25 +50,29 @@ How to add a repo to a pipeline, in a Jenkins Server
 	- Max 3
 4) `GitHub project` - enter WEB url
 5) `Restrict where this project can be run` - sparta-ubuntu-node
-	***Disabled during set-up***
+	- NOTE: NOT CURRENTLY WORKING
 6) `Source Code Management` - Git
-	- CLONE url
+	- CLONE url (git@git link)
 7) `Add key`
-	- `Kind` - SSH username with private key
-	- `id`, `desc` - an internal, unique name
+	- `type` - SSH username with private key
+	- `id`, `description` - an internal, unique name
 	- `Private key` - enter directly
 	- `ADD`
-8) Add new key (other) to GitHub, if not there
-9) `Branches to build` - /dev/
-10) `Additional Behaviours` - Merge before build
-								- To master
+8) Add new key (public) to GitHub, if not there
+9) `Branches to build` - :origin/dev-.* --> all dev branches only
+10) `Additional Behaviours`
+	- Merge before build
+	- To master
 11) `Build Triggers` - GitHub Hook
 12) `Execute shell`
 		`cd app
 		npm install
-		npm test`
+		npm run test`
 13) `Post Build Actions`
 	- Git Publisher
 		- Push only if succeed
 		- Merge results
+		- Branches:
+			- Branch to push: master
+			- Target remote name: origin
 		- Notes
