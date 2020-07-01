@@ -76,3 +76,12 @@ How to add a repo to a pipeline, in a Jenkins Server
 			- Branch to push: master
 			- Target remote name: origin
 		- Notes
+
+### HOW TO USE PIPELINE
+
+1) Make code changes locally - git add, git commit, git push (using a branch with name 'dev-XXXXXXX')
+2) If you have access, check the pipeline on the jenkins server. The build should run
+3) This will either go blue for success or red for failure.
+4) Check teams as well, a notification should be sent to the jenkins group
+5) If red, check the reason why by going on the output of the build - it is most likely a test failure
+6) If blue, then check Github, the master change should now have the changes you made and pushed in the dev branch
